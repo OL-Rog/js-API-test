@@ -75,7 +75,7 @@ class MovieSearch {
       // const responsePoster = await fetch(urlPoster);
       const response = await fetch(urlInfo);
       if (!response.ok) {
-        throw new Error("Помилка мережі");
+        throw new Error(`HTTP помилка! Статус: ${response.status}`);
       }
       const data = await response.json();
       // const poster = await responsePoster.json();
@@ -92,10 +92,11 @@ class MovieSearch {
           );
         });
       } else {
-        console.log("Фільм не знайдено:", data.Error);
+        throw new Error(`Сталася помилка`);
       }
     } catch (error) {
       console.error("Виникла помилка:", error);
+      this.mainContainer.innerHTML = `<p class = "w-full">Сталася помилка. Спробуйте ще раз😞</p>`;
     }
   }
 }
