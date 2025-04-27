@@ -8,7 +8,6 @@ class MovieSearch {
   }
 
   initSearch() {
-    this.findElement();
     this.addListeners();
   }
   createElements(title, year, genre, type, img, plot) {
@@ -53,26 +52,23 @@ class MovieSearch {
     wrapFilm.appendChild(moviePlot);
   }
 
-  findElement() {
-    const input = document.getElementById("searchFilm");
-    this.input = input;
-  }
-
   addListeners() {
-    this.input.addEventListener("input", () => {
-      const query = this.input.value.trim();
-      this.mainContainer.innerHTML = "";
-      console.log(query);
-      this.requestAPI(query);
+    const input = document.getElementById("searchFilm");
+
+    input.addEventListener("input", () => {
+      const query = input.value.trim();
+      if (query.length > 1) {
+        this.mainContainer.innerHTML = "";
+        console.log(query);
+        this.requestAPI(query);
+      }
     });
   }
 
   async requestAPI(clientRequest) {
     const urlInfo = `https://www.omdbapi.com/?apikey=${this.apiKey}&s=${clientRequest}`;
-    // const urlPoster = `http://img.omdbapi.com/?apikey=${this.apiKey}`;
 
     try {
-      // const responsePoster = await fetch(urlPoster);
       const response = await fetch(urlInfo);
       if (!response.ok) {
         throw new Error(`HTTP помилка! Статус: ${response.status}`);
@@ -96,7 +92,7 @@ class MovieSearch {
       }
     } catch (error) {
       console.error("Виникла помилка:", error);
-      this.mainContainer.innerHTML = `<p class = "w-full">Сталася помилка. Спробуйте ще раз😞</p>`;
+      this.mainContainer.innerHTML = `<p class = "w-full">Не знайшли фільм за цим запитом. Спробуйте ще раз😞</p>`;
     }
   }
 }
