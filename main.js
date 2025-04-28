@@ -10,7 +10,7 @@ class MovieSearch {
   initSearch() {
     this.addListeners();
   }
-  createElements(title, year, genre, type, img, plot) {
+  createElements(title, year, type, img) {
     const wrapFilm = document.createElement("div");
     wrapFilm.className =
       "bg-white rounded-lg shadow p-4 flex flex-col items-center";
@@ -36,20 +36,10 @@ class MovieSearch {
     movieYear.textContent = `Рік: ${year}`;
     wrapFilm.appendChild(movieYear);
 
-    const movieGenre = document.createElement("div");
-    movieGenre.className = "text-gray-600";
-    movieGenre.textContent = `Жанр: ${genre}`;
-    wrapFilm.appendChild(movieGenre);
-
     const movieType = document.createElement("div");
     movieType.className = "text-gray-600";
     movieType.textContent = `Тип: ${type}`;
     wrapFilm.appendChild(movieType);
-
-    const moviePlot = document.createElement("div");
-    moviePlot.className = "text-gray-600";
-    moviePlot.textContent = `Тип: ${plot}`;
-    wrapFilm.appendChild(moviePlot);
   }
 
   addListeners() {
@@ -78,14 +68,7 @@ class MovieSearch {
       if (data.Response === "True") {
         console.log("Знайдено фільм:", data);
         data.Search.forEach((el) => {
-          this.createElements(
-            el.Title,
-            el.Year,
-            el.Genre,
-            el.Type,
-            el.Poster,
-            el.Plot
-          );
+          this.createElements(el.Title, el.Year, el.Type, el.Poster);
         });
       } else {
         throw new Error(`Сталася помилка`);
